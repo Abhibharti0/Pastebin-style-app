@@ -21,7 +21,8 @@ export const pasteSlice = createSlice({
     updateToPastes: (state, action) => {
       const index = state.pastes.findIndex(p => p._id === action.payload._id);
       if (index >=0) {
-        state.pastes[index] = paste;
+        state.pastes[index] = action.payload; 
+
         localStorage.setItem("pastes", JSON.stringify(state.pastes));
         toast("Paste Updated Successfully");
       }

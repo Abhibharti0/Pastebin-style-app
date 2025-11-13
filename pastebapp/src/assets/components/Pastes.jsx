@@ -4,6 +4,9 @@ import { removeFromPastes } from '../redux/pasteSlice'; // Make sure the path is
 import toast,{Toaster} from 'react-hot-toast';
 import { NavLink } from 'react-router-dom';
 
+
+
+
 const Pastes = () => {
   const pastes = useSelector((state) => state.paste.pastes);
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,6 +15,12 @@ const Pastes = () => {
   const filteredData = pastes.filter((paste) =>
     paste.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  const handleShare = (paste) => {
+  navigator.share?.({
+    title: paste.title,
+    text: paste.content,
+  }) || toast.error("Sharing not supported on this device");
+};
 
   return (
     <div className="p-5">
@@ -36,13 +45,11 @@ const Pastes = () => {
               <div className="flex flex-row gap-4 mt-3">
   <button className="btn" ><NavLink to={`/?pasteId=${paste._id}`}>Edit</NavLink>  </button>
  
- <button> <NavLink
-    to={`/pastes/${paste._id}`}
-    state={{ paste }}
-    className="btn"
-  >
-    View
-  </NavLink></button>
+ <button> <NavLink to={`/paste/${paste._id}`} state={{ paste }} className="btn">
+  View
+</NavLink>
+
+</button>
   
 
   <button
